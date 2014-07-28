@@ -109,8 +109,9 @@ Model.reopenClass({
     return relationship && relationship.type;
   },
 
-  inverseFor: function(name) {
-    var inverseType = this.typeForRelationship(name);
+  inverseFor: function(name, type) {
+    name = name || type.typeKey;
+    var inverseType = type;
 
     if (!inverseType) { return null; }
 
