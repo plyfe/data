@@ -688,11 +688,11 @@ export default Ember.Object.extend({
     @param {String} requestType
     @return {Object} json The deserialized payload
   */
-  extract: function(store, type, payload, id, requestType) {
+  extract: function(store, type, payload, id, requestType, record) {
     this.extractMeta(store, type, payload);
 
     var specificExtract = "extract" + requestType.charAt(0).toUpperCase() + requestType.substr(1);
-    return this[specificExtract](store, type, payload, id, requestType);
+    return this[specificExtract](store, type, payload, id, requestType, record);
   },
 
   /**
@@ -773,8 +773,8 @@ export default Ember.Object.extend({
     @param {String} requestType
     @return {Object} json The deserialized payload
   */
-  extractCreateRecord: function(store, type, payload, id, requestType) {
-    return this.extractSave(store, type, payload, id, requestType);
+  extractCreateRecord: function(store, type, payload, id, requestType, record) {
+    return this.extractSave(store, type, payload, id, requestType, record);
   },
   /**
     `extractUpdateRecord` is a hook into the extract method used when
@@ -854,8 +854,8 @@ export default Ember.Object.extend({
     @param {String} requestType
     @return {Object} json The deserialized payload
   */
-  extractSave: function(store, type, payload, id, requestType) {
-    return this.extractSingle(store, type, payload, id, requestType);
+  extractSave: function(store, type, payload, id, requestType, record) {
+    return this.extractSingle(store, type, payload, id, requestType, record);
   },
 
   /**
