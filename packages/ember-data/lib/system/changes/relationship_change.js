@@ -81,7 +81,7 @@ RelationshipChange.determineRelationshipType = function(recordType, knownSide){
   var knownKey = knownSide.key, key, otherKind;
   var knownKind = knownSide.kind;
 
-  var inverse = recordType.inverseFor(knownKey);
+  var inverse = recordType.inverseFor(knownKey, knownSide.parentType);
 
   if (inverse) {
     key = inverse.name;
@@ -232,7 +232,7 @@ OneToManyChange.createChange = function(childRecord, parentRecord, store, option
   // If the type of the parent is specified, look it up on the child's type
   // definition.
   if (options.parentType) {
-    key = options.parentType.inverseFor(options.key).name;
+    key = options.parentType.inverseFor(options.parentType.typeKey, options.parentType.superclass).name;
     OneToManyChange.maintainInvariant( options, store, childRecord, key );
   } else if (options.key) {
     key = options.key;
@@ -286,7 +286,7 @@ RelationshipChange.prototype = {
       if (!parent) { return; }
 
       var childType = this.firstRecord.constructor;
-      var inverse = childType.inverseFor(this.firstRecordName);
+      var inverse = childType.inverseFor(this.firstRecordName, this.firstRecord.constructor);
       this.secondRecordName = inverse.name;
     }
 

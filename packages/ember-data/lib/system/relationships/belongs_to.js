@@ -199,7 +199,9 @@ Model.reopen({
 
       if (newParent) {
         var store = get(record, 'store');
+        var parentType = newParent.constructor;
         var change = RelationshipChange.createChange(record, newParent, store, {
+          parentType: parentType,
           key: key,
           kind: 'belongsTo',
           changeType: 'add'
